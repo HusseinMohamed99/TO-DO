@@ -93,70 +93,75 @@ Widget defaultTextFormField({
 
 Widget buildTaskItem(Map model, context) => Dismissible(
       key: Key(model['id'].toString()),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 40.0,
-              child: Text(
-                '${model['time']}',
+      child: Card(
+        elevation: 20.0,
+        color: Colors.grey[200],
+        margin: EdgeInsetsDirectional.all(20),
+        child: SizedBox(
+          height: 110,
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 40.0,
+                child: Text(
+                  '${model['time']}',
+                ),
               ),
-            ),
-            SizedBox(
-              width: 20.0,
-            ),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${model['title']}',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
+              SizedBox(
+                width: 20.0,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${model['title']}',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Text(
-                    '${model['date']}',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
+                    Text(
+                      '${model['date']}',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              width: 20.0,
-            ),
-            IconButton(
-              onPressed: () {
-                AppCubit.get(context).UpdateData(
-                  status: 'done',
-                  id: model['id'],
-                );
-              },
-              icon: Icon(
-                Icons.check_box,
-                color: Colors.green,
+              SizedBox(
+                width: 20.0,
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                AppCubit.get(context).UpdateData(
-                  status: 'archive',
-                  id: model['id'],
-                );
-              },
-              icon: Icon(
-                Icons.archive,
-                color: Colors.black38,
+              IconButton(
+                onPressed: () {
+                  AppCubit.get(context).UpdateData(
+                    status: 'done',
+                    id: model['id'],
+                  );
+                },
+                icon: Icon(
+                  Icons.check_box,
+                  color: Colors.green,
+                ),
               ),
-            ),
-          ],
+              IconButton(
+                onPressed: () {
+                  AppCubit.get(context).UpdateData(
+                    status: 'archive',
+                    id: model['id'],
+                  );
+                },
+                icon: Icon(
+                  Icons.archive,
+                  color: Colors.black38,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       onDismissed: (direction) {
