@@ -71,8 +71,8 @@ class Home_Layout extends StatelessWidget {
                                 defaultTextFormField(
                                   controller: titleController,
                                   type: TextInputType.text,
-                                  validate: (String value) {
-                                    if (value.isEmpty) {
+                                  validate: (String? value) {
+                                    if (value!.isEmpty) {
                                       return 'title must not be empty';
                                     }
                                     return null;
@@ -96,8 +96,8 @@ class Home_Layout extends StatelessWidget {
                                       print(value.format(context));
                                     });
                                   },
-                                  validate: (String value) {
-                                    if (value.isEmpty) {
+                                  validate: (String? value) {
+                                    if (value!.isEmpty) {
                                       return 'time must not be empty';
                                     }
                                     return null;
@@ -122,8 +122,8 @@ class Home_Layout extends StatelessWidget {
                                           DateFormat.yMMMd().format(value!);
                                     });
                                   },
-                                  validate: (String value) {
-                                    if (value.isEmpty) {
+                                  validate: (String? value) {
+                                    if (value!.isEmpty) {
                                       return 'date must not be empty';
                                     }
                                     return null;
@@ -148,8 +148,8 @@ class Home_Layout extends StatelessWidget {
                     isShow: true,
                     icon: Icons.add,
                   );
-                }
-                ;
+                };
+
               },
               child: Icon(
                 cubit.fabIcon,

@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, avoid_types_as_parameter_names, sort_child_properties_last, body_might_complete_normally_nullable
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
@@ -16,23 +15,23 @@ Widget defaultButton({
     Container(
       width: width,
       height: 50.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          radius,
+        ),
+        color: background,
+      ),
       child: MaterialButton(
         onPressed: () {
           function();
         },
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 20.0,
           ),
         ),
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          radius,
-        ),
-        color: background,
       ),
     );
 
@@ -53,7 +52,7 @@ Widget defaultTextFormField({
   String Function(String?)? onSubmit,
   Function(String)? onChange,
   Function()? onTap,
-  required Function validate,
+  required String? Function(String?) validate,
   required String label,
   required IconData prefix,
   bool isPassword = false,
@@ -69,9 +68,7 @@ Widget defaultTextFormField({
       onChanged: onChange,
       enabled: isClickable,
       onTap: onTap,
-      validator: (v) {
-        validate(v);
-      },
+      validator: validate,
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(
@@ -96,7 +93,7 @@ Widget buildTaskItem(Map model, context) => Dismissible(
       child: Card(
         elevation: 20.0,
         color: Colors.grey[200],
-        margin: EdgeInsetsDirectional.all(20),
+        margin: const EdgeInsetsDirectional.all(20),
         child: SizedBox(
           height: 110,
           child: Row(
@@ -107,7 +104,7 @@ Widget buildTaskItem(Map model, context) => Dismissible(
                   '${model['time']}',
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20.0,
               ),
               Expanded(
@@ -117,14 +114,14 @@ Widget buildTaskItem(Map model, context) => Dismissible(
                   children: [
                     Text(
                       '${model['title']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       '${model['date']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
@@ -133,7 +130,7 @@ Widget buildTaskItem(Map model, context) => Dismissible(
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20.0,
               ),
               IconButton(
@@ -143,7 +140,7 @@ Widget buildTaskItem(Map model, context) => Dismissible(
                     id: model['id'],
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.check_box,
                   color: Colors.green,
                 ),
@@ -155,7 +152,7 @@ Widget buildTaskItem(Map model, context) => Dismissible(
                     id: model['id'],
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.archive,
                   color: Colors.black38,
                 ),
@@ -179,7 +176,7 @@ Widget tasksBuilder({required List<Map> tasks}) => ConditionalBuilder(
         itemCount: tasks.length,
       ),
       fallback: (context) => Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
           Icon(
             Icons.menu,
             size: 150.0,
@@ -206,9 +203,9 @@ Widget myDivider() => Padding(
       ),
     );
 
-void navigateTo(context, Widget) => Navigator.push(
+void navigateTo(context, widget) => Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Widget,
+        builder: (context) => widget,
       ),
     );
