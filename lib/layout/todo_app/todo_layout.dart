@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, empty_statements, avoid_print, use_key_in_widget_constructors, must_be_immutable, camel_case_types
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +13,8 @@ class Home_Layout extends StatelessWidget {
   var timeController = TextEditingController();
   var dateController = TextEditingController();
 
+  Home_Layout({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -28,15 +28,29 @@ class Home_Layout extends StatelessWidget {
         builder: (BuildContext context, state) {
           AppCubit cubit = AppCubit.get(context);
           return Scaffold(
+
             key: scaffoldkey,
             appBar: AppBar(
               title: Text(
                 cubit.titles[cubit.currentIndex],
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 25.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              actions: [
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+
+                      child: IconButton(
+                          onPressed: ()
+                          {
+                           // cubit.changeAppMode();
+                          }, icon: Icon(Icons.dark_mode_outlined))),
+                )
+              ],
             ),
             body: ConditionalBuilder(
               condition: state is! AppGetDatabaseLoadingState,
@@ -60,7 +74,7 @@ class Home_Layout extends StatelessWidget {
                       .showBottomSheet(
                         (context) => Container(
                           color: Colors.white,
-                          padding: EdgeInsets.all(
+                          padding: const EdgeInsets.all(
                             20.0,
                           ),
                           child: Form(
@@ -80,7 +94,7 @@ class Home_Layout extends StatelessWidget {
                                   label: 'Task Title',
                                   prefix: Icons.title,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20.0,
                                 ),
                                 defaultTextFormField(
@@ -105,7 +119,7 @@ class Home_Layout extends StatelessWidget {
                                   label: 'Task Time',
                                   prefix: Icons.watch_later_outlined,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20.0,
                                 ),
                                 defaultTextFormField(
@@ -148,8 +162,7 @@ class Home_Layout extends StatelessWidget {
                     isShow: true,
                     icon: Icons.add,
                   );
-                };
-
+                }
               },
               child: Icon(
                 cubit.fabIcon,
@@ -158,7 +171,7 @@ class Home_Layout extends StatelessWidget {
 
             // Bottom
             bottomNavigationBar: BottomNavigationBar(
-              items: [
+              items: const [
                 BottomNavigationBarItem(
                   icon: Icon(
                     Icons.menu,

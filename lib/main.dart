@@ -1,4 +1,3 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +10,7 @@ import 'package:todo/styles/themes.dart';
 import 'bloc_observer.dart';
 
 void main() async {
-  // بيتأكد ان كل حاجة خلصت و بعدين يرن
+
   WidgetsFlutterBinding.ensureInitialized();
 
   BlocOverrides.runZoned(
@@ -28,17 +27,14 @@ void main() async {
   ));
 }
 
-// Stateless
-// Stateful
-// class MyApp
+
 class MyApp extends StatelessWidget {
   bool? isDark;
 
   MyApp({
     required this.isDark,
   });
-  // constructor
-  // build
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
