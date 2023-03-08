@@ -1,4 +1,5 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -6,14 +7,14 @@ import 'package:todo/shared/components/componentes.dart';
 import 'package:todo/shared/cubit/cubit.dart';
 import 'package:todo/shared/cubit/states.dart';
 
-class Home_Layout extends StatelessWidget {
-  var scaffoldkey = GlobalKey<ScaffoldState>();
-  var formkey = GlobalKey<FormState>();
-  var titleController = TextEditingController();
-  var timeController = TextEditingController();
-  var dateController = TextEditingController();
+class HomeLayout extends StatelessWidget {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
+  final titleController = TextEditingController();
+  final timeController = TextEditingController();
+  final dateController = TextEditingController();
 
-  Home_Layout({Key? key}) : super(key: key);
+  HomeLayout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class Home_Layout extends StatelessWidget {
           AppCubit cubit = AppCubit.get(context);
           return Scaffold(
 
-            key: scaffoldkey,
+            key: scaffoldKey,
             appBar: AppBar(
               title: Text(
                 cubit.titles[cubit.currentIndex],
@@ -39,16 +40,14 @@ class Home_Layout extends StatelessWidget {
                 ),
               ),
               actions: [
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
-
                       child: IconButton(
-                          onPressed: ()
-                          {
-                           // cubit.changeAppMode();
-                          }, icon: Icon(Icons.dark_mode_outlined))),
+                          onPressed: () {
+                            // cubit.changeAppMode();
+                          },
+                          icon: const Icon(Icons.dark_mode_outlined))),
                 )
               ],
             ),
@@ -62,7 +61,7 @@ class Home_Layout extends StatelessWidget {
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 if (cubit.isBottomSheetShown) {
-                  if (formkey.currentState!.validate()) {
+                  if (formKey.currentState!.validate()) {
                     cubit.insertToDatabase(
                       title: titleController.text,
                       time: timeController.text,
@@ -70,7 +69,7 @@ class Home_Layout extends StatelessWidget {
                     );
                   }
                 } else {
-                  scaffoldkey.currentState!
+                  scaffoldKey.currentState!
                       .showBottomSheet(
                         (context) => Container(
                           color: Colors.white,
@@ -78,7 +77,7 @@ class Home_Layout extends StatelessWidget {
                             20.0,
                           ),
                           child: Form(
-                            key: formkey,
+                            key: formKey,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -107,7 +106,9 @@ class Home_Layout extends StatelessWidget {
                                     ).then((value) {
                                       timeController.text =
                                           value!.format(context).toString();
-                                      print(value.format(context));
+                                      if (kDebugMode) {
+                                        print(value.format(context));
+                                      }
                                     });
                                   },
                                   validate: (String? value) {
@@ -194,7 +195,7 @@ class Home_Layout extends StatelessWidget {
               type: BottomNavigationBarType.fixed,
               currentIndex: cubit.currentIndex,
               onTap: (index) {
-                cubit.ChangeIndex(index);
+                cubit.changeIndex(index);
               },
             ),
           );

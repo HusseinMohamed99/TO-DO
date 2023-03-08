@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/layout/todo_app/todo_layout.dart';
@@ -6,7 +5,6 @@ import 'package:todo/network/local/cache_helper.dart';
 import 'package:todo/network/remote/dio_helper.dart';
 import 'package:todo/shared/cubit/cubit.dart';
 import 'package:todo/shared/cubit/states.dart';
-import 'package:todo/styles/themes.dart';
 import 'bloc_observer.dart';
 
 void main() async {
@@ -29,9 +27,10 @@ void main() async {
 
 
 class MyApp extends StatelessWidget {
-  bool? isDark;
+ final bool? isDark;
 
-  MyApp({
+  const MyApp({
+    super.key,
     required this.isDark,
   });
 
@@ -54,7 +53,7 @@ class MyApp extends StatelessWidget {
             // darkTheme: darkTheme,
             // themeMode:
             //     AppCubit.get(context).isDark ? ThemeMode.light : ThemeMode.dark,
-            home: Home_Layout(),
+            home: HomeLayout(),
           );
         },
       ),

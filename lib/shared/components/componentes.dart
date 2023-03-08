@@ -135,7 +135,7 @@ Widget buildTaskItem(Map model, context) => Dismissible(
               ),
               IconButton(
                 onPressed: () {
-                  AppCubit.get(context).UpdateData(
+                  AppCubit.get(context).updateData(
                     status: 'done',
                     id: model['id'],
                   );
@@ -147,7 +147,7 @@ Widget buildTaskItem(Map model, context) => Dismissible(
               ),
               IconButton(
                 onPressed: () {
-                  AppCubit.get(context).UpdateData(
+                  AppCubit.get(context).updateData(
                     status: 'archive',
                     id: model['id'],
                   );
@@ -162,7 +162,7 @@ Widget buildTaskItem(Map model, context) => Dismissible(
         ),
       ),
       onDismissed: (direction) {
-        AppCubit.get(context).DeleteData(
+        AppCubit.get(context).deleteData(
           id: model['id'],
         );
       },
