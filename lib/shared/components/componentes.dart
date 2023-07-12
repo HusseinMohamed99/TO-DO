@@ -1,4 +1,3 @@
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/shared/cubit/cubit.dart';
@@ -175,8 +174,8 @@ Widget tasksBuilder({required List<Map> tasks}) => ConditionalBuilder(
         separatorBuilder: (context, index) => myDivider(),
         itemCount: tasks.length,
       ),
-      fallback: (context) => Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
+      fallback: (context) => const Center(
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(
             Icons.menu,
             size: 150.0,

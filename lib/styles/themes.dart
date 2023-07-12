@@ -32,7 +32,7 @@ ThemeData darkTheme = ThemeData(
     elevation: 25.0,
   ),
   textTheme: TextTheme(
-      bodyText1: TextStyle(
+      bodyLarge: TextStyle(
     fontSize: 18.0,
     color: Colors.white,
   )),
@@ -75,7 +75,7 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
   textTheme: TextTheme(
-      bodyText1: TextStyle(
+      bodyLarge: TextStyle(
     fontSize: 18.0,
     color: Colors.black,
   )),

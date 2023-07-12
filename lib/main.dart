@@ -5,16 +5,13 @@ import 'package:todo/network/local/cache_helper.dart';
 import 'package:todo/network/remote/dio_helper.dart';
 import 'package:todo/shared/cubit/cubit.dart';
 import 'package:todo/shared/cubit/states.dart';
+
 import 'bloc_observer.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
-  BlocOverrides.runZoned(
-    () {},
-    blocObserver: MyBlocObserver(),
-  );
+  Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
 
@@ -25,9 +22,8 @@ void main() async {
   ));
 }
 
-
 class MyApp extends StatelessWidget {
- final bool? isDark;
+  final bool? isDark;
 
   const MyApp({
     super.key,
