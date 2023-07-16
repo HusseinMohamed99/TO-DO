@@ -19,7 +19,7 @@ void main() async {
   DioHelper.init();
   await CacheHelper.init();
 
-  bool? isDark = CacheHelper.getData(key: 'isDark');
+  bool? isDark = CacheHelper.getBoolean(key: 'isDark');
 
   runApp(MyApp(
     isDark: isDark,
@@ -30,19 +30,20 @@ class MyApp extends StatelessWidget {
   final bool? isDark;
 
   const MyApp({
-    super.key,
-    required this.isDark,
-  });
+    Key? key,
+    this.isDark,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (context) => AppCubit()
-              ..changeAppMode(
-                fromShared: isDark,
-              )),
+          create: (context) => AppCubit()
+            ..changeAppMode(
+              fromShared: isDark,
+            ),
+        ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
@@ -54,11 +55,11 @@ class MyApp extends StatelessWidget {
               builder: (context, child) {
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
-                  theme: lightTheme,
-                  darkTheme: darkTheme,
+                  theme: ThemeApp.lightTheme,
+                  darkTheme: ThemeApp.darkTheme,
                   themeMode: AppCubit.get(context).isDark
-                      ? ThemeMode.light
-                      : ThemeMode.dark,
+                      ? ThemeMode.dark
+                      : ThemeMode.light,
                   home: HomeLayout(),
                 );
               });

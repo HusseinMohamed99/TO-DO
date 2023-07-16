@@ -5,7 +5,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:todo/modules/todo_app/newArchived/new_archived_screen.dart';
 import 'package:todo/modules/todo_app/newDone/new_done_screen.dart';
 import 'package:todo/modules/todo_app/newTasks/new_tasks_screen.dart';
-
 import 'package:todo/network/local/cache_helper.dart';
 import 'package:todo/shared/cubit/states.dart';
 
@@ -150,16 +149,24 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  bool isDark = false;
+  bool isDark = true;
+  Color backgroundColor = const Color(0xff333739);
+
   void changeAppMode({bool? fromShared}) {
-    if (fromShared != null) {
-      isDark = fromShared;
-      emit(AppChangeModeState());
-    } else {
+    if (fromShared == null) {
       isDark = !isDark;
-      CacheHelper.putBoolean(key: 'isDark', value: isDark).then((value) {
-        emit(AppChangeModeState());
-      });
+    } else {
+      isDark = fromShared;
     }
+    CacheHelper.saveData(key: 'isDark', value: isDark).then((value) {
+      if (isDark) {
+        backgroundColor = const Color(0xff333739);
+        emit(AppChangeModeState());
+      } else {
+        backgroundColor = const Color(0xffffffff);
+        emit(AppChangeModeState());
+      }
+      emit(AppChangeModeState());
+    });
   }
 }

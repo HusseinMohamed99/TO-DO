@@ -19,7 +19,7 @@ class HomeLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => AppCubit()..createDatabase(),
+      create: (BuildContext context) => AppCubit(),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (BuildContext context, AppStates state) {
           if (state is AppInsertDatabaseState) {
@@ -29,7 +29,6 @@ class HomeLayout extends StatelessWidget {
         builder: (BuildContext context, state) {
           AppCubit cubit = AppCubit.get(context);
           return Scaffold(
-
             key: scaffoldKey,
             appBar: AppBar(
               title: Text(
@@ -43,11 +42,13 @@ class HomeLayout extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
-                      child: IconButton(
-                          onPressed: () {
-                            // cubit.changeAppMode();
-                          },
-                          icon: const Icon(Icons.dark_mode_outlined))),
+                    child: IconButton(
+                      onPressed: () {
+                        cubit.changeAppMode();
+                      },
+                      icon: const Icon(Icons.dark_mode_outlined),
+                    ),
+                  ),
                 )
               ],
             ),
@@ -57,7 +58,6 @@ class HomeLayout extends StatelessWidget {
               fallback: (context) => cubit.screens[cubit.currentIndex],
             ),
 
-            // Floating Bottom
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 if (cubit.isBottomSheetShown) {

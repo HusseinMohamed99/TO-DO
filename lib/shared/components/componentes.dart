@@ -5,7 +5,7 @@ import 'package:todo/styles/themes.dart';
 
 Widget defaultButton({
   double width = double.infinity,
-  Color background = defaultColor,
+  Color background = ThemeApp.defaultColor,
   bool isUpperCase = true,
   double radius = 3.0,
   required Function function,
@@ -174,7 +174,7 @@ Widget tasksBuilder({required List<Map> tasks}) => ConditionalBuilder(
         separatorBuilder: (context, index) => myDivider(),
         itemCount: tasks.length,
       ),
-      fallback: (context) => const Center(
+      fallback: (context) => Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(
             Icons.menu,
@@ -198,7 +198,7 @@ Widget myDivider() => Padding(
       child: Container(
         width: double.infinity,
         height: 1.0,
-        color: defaultColor,
+        color: ThemeApp.defaultColor,
       ),
     );
 
