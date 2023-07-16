@@ -1,26 +1,24 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:todo/styles/colors.dart';
 
+Color primaryDarkColor = const Color(0xff333739);
+const defaultColor = Colors.blueAccent;
 ThemeData darkTheme = ThemeData(
-  scaffoldBackgroundColor: HexColor('333739'),
+  scaffoldBackgroundColor: primaryDarkColor,
   appBarTheme: AppBarTheme(
     titleSpacing: 20.0,
     systemOverlayStyle: SystemUiOverlayStyle(
-      statusBarColor: HexColor('333739'),
+      statusBarColor: primaryDarkColor,
       statusBarIconBrightness: Brightness.light,
     ),
-    backgroundColor: HexColor('333739'),
+    backgroundColor: primaryDarkColor,
     elevation: 0.0,
-    titleTextStyle: TextStyle(
+    titleTextStyle: const TextStyle(
       color: Colors.white,
       fontSize: 20.0,
       fontWeight: FontWeight.bold,
     ),
-    actionsIconTheme: IconThemeData(
+    actionsIconTheme: const IconThemeData(
       color: Colors.white,
     ),
   ),
@@ -28,15 +26,15 @@ ThemeData darkTheme = ThemeData(
     type: BottomNavigationBarType.fixed,
     selectedItemColor: defaultColor,
     unselectedItemColor: Colors.white,
-    backgroundColor: HexColor('333739'),
+    backgroundColor: primaryDarkColor,
     elevation: 25.0,
   ),
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
       bodyLarge: TextStyle(
     fontSize: 18.0,
     color: Colors.white,
   )),
-  iconTheme: IconThemeData(
+  iconTheme: const IconThemeData(
     color: Colors.black54,
   ),
   fontFamily: 'Jannah',
@@ -44,7 +42,7 @@ ThemeData darkTheme = ThemeData(
 
 ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     titleSpacing: 20.0,
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.white,
@@ -65,7 +63,7 @@ ThemeData lightTheme = ThemeData(
       color: Colors.black,
     ),
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
     selectedItemColor: defaultColor,
     backgroundColor: Colors.white,
@@ -74,7 +72,7 @@ ThemeData lightTheme = ThemeData(
       color: Colors.black54,
     ),
   ),
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
       bodyLarge: TextStyle(
     fontSize: 18.0,
     color: Colors.black,
