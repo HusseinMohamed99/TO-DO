@@ -1,7 +1,9 @@
 # READ ME
 
-This is a notes Application. The main idea of the application is to store the user notes as tasks to
-help him managing his time. Also, user sets a deadline to end this task and the application shows
+This is a notes Application.
+The main idea of the application is to store the user notes as tasks to
+help him managing his time.
+Also, user sets a deadline to end this task and the application shows
 him if the task had done or not.
 
 # Screenshot:
