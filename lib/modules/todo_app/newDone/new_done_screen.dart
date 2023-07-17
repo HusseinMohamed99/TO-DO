@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/shared/components/components.dart';
-import 'package:todo/shared/cubit/cubit.dart';
-import 'package:todo/shared/cubit/states.dart';
+import 'package:todo/shared/cubit/todo_cubit.dart';
+import 'package:todo/shared/cubit/todo_states.dart';
 
 class NewDoneScreen extends StatelessWidget {
   const NewDoneScreen({super.key});

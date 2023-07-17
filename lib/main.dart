@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo/bloc_observer.dart';
 import 'package:todo/layout/todo_app/todo_layout.dart';
 import 'package:todo/network/local/cache_helper.dart';
 import 'package:todo/network/remote/dio_helper.dart';
-import 'package:todo/shared/cubit/cubit.dart';
 import 'package:todo/shared/cubit/mode_cubit.dart';
 import 'package:todo/shared/cubit/mode_states.dart';
+import 'package:todo/shared/cubit/todo_cubit.dart';
 import 'package:todo/styles/themes.dart';
 import 'package:wakelock/wakelock.dart';
-
-import 'bloc_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,10 +40,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AppCubit()
-            ..changeAppMode(
-              fromShared: isDark,
-            ),
+          create: (context) => AppCubit(),
         ),
         BlocProvider(
           create: (context) => ModeCubit()

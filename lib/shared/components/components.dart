@@ -1,6 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:todo/shared/cubit/cubit.dart';
+import 'package:todo/shared/cubit/todo_cubit.dart';
 import 'package:todo/styles/themes.dart';
 
 Widget defaultButton({

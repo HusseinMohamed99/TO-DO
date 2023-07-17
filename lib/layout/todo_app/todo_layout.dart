@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/shared/components/components.dart';
-import 'package:todo/shared/cubit/cubit.dart';
 import 'package:todo/shared/cubit/mode_cubit.dart';
-import 'package:todo/shared/cubit/states.dart';
+import 'package:todo/shared/cubit/todo_cubit.dart';
+import 'package:todo/shared/cubit/todo_states.dart';
 
 class HomeLayout extends StatelessWidget {
   const HomeLayout({Key? key}) : super(key: key);

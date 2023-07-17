@@ -6,7 +6,7 @@ import 'package:todo/modules/todo_app/newArchived/new_archived_screen.dart';
 import 'package:todo/modules/todo_app/newDone/new_done_screen.dart';
 import 'package:todo/modules/todo_app/newTasks/new_tasks_screen.dart';
 import 'package:todo/network/local/cache_helper.dart';
-import 'package:todo/shared/cubit/states.dart';
+import 'package:todo/shared/cubit/todo_states.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
