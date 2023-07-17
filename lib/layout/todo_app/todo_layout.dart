@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/shared/Cubit/mode_cubit.dart';
 import 'package:todo/shared/components/components.dart';
-import 'package:todo/shared/cubit/mode_cubit.dart';
+import 'package:todo/shared/components/sized_box.dart';
 import 'package:todo/shared/cubit/todo_cubit.dart';
 import 'package:todo/shared/cubit/todo_states.dart';
+import 'package:todo/shared/enum/enum.dart';
+import 'package:todo/styles/themes.dart';
 
 class HomeLayout extends StatelessWidget {
   const HomeLayout({Key? key}) : super(key: key);
@@ -29,16 +32,18 @@ class HomeLayout extends StatelessWidget {
           }
         },
         builder: (BuildContext context, state) {
+          var textLightTheme = getThemeData[AppTheme.lightTheme]!.textTheme;
+          var textDarkTheme = getThemeData[AppTheme.darkTheme]!.textTheme;
+          ModeCubit modeCubit = ModeCubit.get(context);
           AppCubit cubit = AppCubit.get(context);
           return Scaffold(
             key: scaffoldKey,
             appBar: AppBar(
               title: Text(
                 cubit.titles[cubit.currentIndex],
-                style: const TextStyle(
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: modeCubit.isDark
+                    ? textLightTheme.titleLarge
+                    : textDarkTheme.titleLarge,
               ),
               actions: [
                 Padding(
@@ -84,6 +89,7 @@ class HomeLayout extends StatelessWidget {
                                   DefaultTextFormField(
                                     controller: titleController,
                                     type: TextInputType.text,
+                                    maxLength: 10,
                                     validate: (String? value) {
                                       if (value!.isEmpty) {
                                         return 'title must not be empty';
@@ -93,11 +99,10 @@ class HomeLayout extends StatelessWidget {
                                     label: 'Task Title',
                                     prefix: Icons.title,
                                   ),
-                                  const SizedBox(
-                                    height: 20.0,
-                                  ),
+                                  Space(height: 16.h, width: 0),
                                   DefaultTextFormField(
                                     controller: descriptionController,
+                                    maxLength: 200,
                                     type: TextInputType.text,
                                     validate: (String? value) {
                                       if (value!.isEmpty) {
@@ -108,9 +113,7 @@ class HomeLayout extends StatelessWidget {
                                     label: 'Task Description',
                                     prefix: Icons.description,
                                   ),
-                                  const SizedBox(
-                                    height: 20.0,
-                                  ),
+                                  Space(height: 16.h, width: 0),
                                   DefaultTextFormField(
                                     controller: timeController,
                                     type: TextInputType.datetime,
@@ -135,9 +138,7 @@ class HomeLayout extends StatelessWidget {
                                     label: 'Task Time',
                                     prefix: Icons.watch_later_outlined,
                                   ),
-                                  const SizedBox(
-                                    height: 20.0,
-                                  ),
+                                  Space(height: 16.h, width: 0),
                                   DefaultTextFormField(
                                     controller: dateController,
                                     type: TextInputType.datetime,
@@ -146,8 +147,9 @@ class HomeLayout extends StatelessWidget {
                                         context: context,
                                         initialDate: DateTime.now(),
                                         firstDate: DateTime.now(),
-                                        lastDate: DateTime.now()
-                                            .add(const Duration(days: 365)),
+                                        lastDate: DateTime.now().add(
+                                          const Duration(days: 365),
+                                        ),
                                       ).then((value) {
                                         dateController.text =
                                             DateFormat.yMMMd().format(value!);
@@ -170,12 +172,14 @@ class HomeLayout extends StatelessWidget {
                         elevation: 20.0,
                       )
                       .closed
-                      .then((value) {
-                        cubit.changeBottomSheetState(
-                          isShow: false,
-                          icon: Icons.edit,
-                        );
-                      });
+                      .then(
+                        (value) {
+                          cubit.changeBottomSheetState(
+                            isShow: false,
+                            icon: Icons.edit,
+                          );
+                        },
+                      );
                   cubit.changeBottomSheetState(
                     isShow: true,
                     icon: Icons.add,

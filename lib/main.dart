@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/bloc_observer.dart';
 import 'package:todo/layout/todo_app/todo_layout.dart';
 import 'package:todo/network/local/cache_helper.dart';
-import 'package:todo/shared/cubit/mode_cubit.dart';
+import 'package:todo/shared/Cubit/mode_cubit.dart';
 import 'package:todo/shared/cubit/mode_states.dart';
 import 'package:todo/shared/cubit/todo_cubit.dart';
 import 'package:todo/shared/enum/enum.dart';

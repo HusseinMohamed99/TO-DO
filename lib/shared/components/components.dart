@@ -1,52 +1,13 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo/shared/Cubit/mode_cubit.dart';
 import 'package:todo/shared/components/sized_box.dart';
-import 'package:todo/shared/cubit/mode_cubit.dart';
 import 'package:todo/shared/cubit/todo_cubit.dart';
+import 'package:todo/shared/enum/enum.dart';
 import 'package:todo/styles/colors.dart';
-
-Widget defaultButton({
-  double width = double.infinity,
-  Color background = AppColorsDark.primaryGreenColor,
-  bool isUpperCase = true,
-  double radius = 3.0,
-  required Function function,
-  required String text,
-}) =>
-    Container(
-      width: width,
-      height: 50.0,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          radius,
-        ),
-        color: background,
-      ),
-      child: MaterialButton(
-        onPressed: () {
-          function();
-        },
-        child: Text(
-          isUpperCase ? text.toUpperCase() : text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20.0,
-          ),
-        ),
-      ),
-    );
-
-Widget defaultTextButton({
-  required Function function,
-  required String text,
-}) =>
-    TextButton(
-      onPressed: () {
-        function();
-      },
-      child: Text(text.toUpperCase()),
-    );
+import 'package:todo/styles/themes.dart';
 
 class DefaultTextFormField extends StatelessWidget {
   const DefaultTextFormField(
@@ -61,6 +22,7 @@ class DefaultTextFormField extends StatelessWidget {
       this.suffix,
       this.suffixPressed,
       this.prefix,
+      this.maxLength,
       required this.label,
       super.key});
 
@@ -77,9 +39,12 @@ class DefaultTextFormField extends StatelessWidget {
   final IconData? prefix;
   final Function? suffixPressed;
 
+  final int? maxLength;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: maxLength,
       controller: controller,
       keyboardType: type,
       obscureText: isPassword ?? false,
@@ -110,90 +75,99 @@ class DefaultTextFormField extends StatelessWidget {
 }
 
 Widget gridTasksItem(Map model, context) {
+  var textLightTheme = getThemeData[AppTheme.lightTheme]!.textTheme;
+  var textDarkTheme = getThemeData[AppTheme.darkTheme]!.textTheme;
   var cubit = ModeCubit.get(context);
   return Card(
     elevation: 20.0,
-    color: cubit.isDark ? Colors.grey[200] : Colors.red,
-    margin: const EdgeInsets.all(20).r,
-    child: Column(
-      children: [
-        Text(
-          '${model['time']}',
-        ),
-        Text(
-          '${model['description']}',
-        ),
-        const SizedBox(
-          height: 20.0,
-        ),
-        Column(
-          children: [
-            Text(
-              '${model['title']}',
-              style: const TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+    margin: const EdgeInsets.all(6).r,
+    child: Padding(
+      padding: const EdgeInsets.all(16.0).r,
+      child: Column(
+        children: [
+          Text(
+            '${model['title']}'.toUpperCase(),
+            style: cubit.isDark
+                ? textLightTheme.titleLarge
+                : textDarkTheme.titleLarge,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            '${model['description']}',
+            style: cubit.isDark
+                ? textLightTheme.titleSmall
+                : textDarkTheme.titleSmall,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Space(height: 16.h, width: 0),
+          Column(
+            children: [
+              Text(
+                '${model['time']}',
+                style: cubit.isDark
+                    ? textLightTheme.titleSmall
+                    : textDarkTheme.titleSmall,
               ),
-            ),
-            Text(
-              '${model['date']}',
-              style: const TextStyle(
-                fontSize: 15.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
+              Text(
+                '${model['date']}',
+                style: cubit.isDark
+                    ? textLightTheme.titleSmall
+                    : textDarkTheme.titleSmall,
               ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20.0,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: IconButton(
-                onPressed: () {
-                  AppCubit.get(context).updateData(
-                    status: 'done',
-                    id: model['id'],
-                  );
-                },
-                icon: const Icon(
-                  Icons.check_box,
-                  color: Colors.green,
+            ],
+          ),
+          Space(height: 8.h, width: 0),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: IconButton(
+                    onPressed: () {
+                      AppCubit.get(context).updateData(
+                        status: 'done',
+                        id: model['id'],
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.check_box,
+                      color: Colors.green,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: IconButton(
-                onPressed: () {
-                  AppCubit.get(context).updateData(
-                    status: 'archive',
-                    id: model['id'],
-                  );
-                },
-                icon: const Icon(
-                  Icons.archive,
-                  color: Colors.black38,
+                Expanded(
+                  child: IconButton(
+                    onPressed: () {
+                      AppCubit.get(context).updateData(
+                        status: 'archive',
+                        id: model['id'],
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.archive,
+                      color: Colors.black38,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: IconButton(
-                onPressed: () {
-                  AppCubit.get(context).deleteData(
-                    id: model['id'],
-                  );
-                },
-                icon: const Icon(
-                  Icons.delete,
-                  color: Colors.black38,
+                Expanded(
+                  child: IconButton(
+                    onPressed: () {
+                      AppCubit.get(context).deleteData(
+                        id: model['id'],
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.black38,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     ),
   );
 }
@@ -201,15 +175,23 @@ Widget gridTasksItem(Map model, context) {
 Widget tasksBuilder({required List<Map> tasks}) => ConditionalBuilder(
       condition: tasks.isNotEmpty,
       builder: (context) => GridView.count(
-        padding: const EdgeInsets.symmetric(horizontal: 8).r,
+        padding: const EdgeInsets.all(0).r,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         crossAxisCount: 2,
-        crossAxisSpacing: 2.0.w,
+        crossAxisSpacing: 1.w,
         mainAxisSpacing: 2.h,
-        childAspectRatio: 1.h / 1.2.h,
+        childAspectRatio: 1.h / 1.h,
         children: List.generate(
-            tasks.length, (index) => gridTasksItem(tasks[index], context)),
+            tasks.length,
+            (index) => InkWell(
+                onTap: () {
+                  showBottomSheetWidget(context, tasks[index]);
+                  if (kDebugMode) {
+                    print(index);
+                  }
+                },
+                child: gridTasksItem(tasks[index], context))),
       ),
       fallback: (context) => const Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -239,14 +221,7 @@ Widget myDivider() => Padding(
       ),
     );
 
-void navigateTo(context, widget) => Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => widget,
-      ),
-    );
-
-void showBottomSheet(BuildContext context) {
+void showBottomSheetWidget(BuildContext context, Map model) {
   showModalBottomSheet(
     isScrollControlled: true,
     backgroundColor: AppColorsDark.primaryGreenColor,
@@ -293,7 +268,7 @@ void showBottomSheet(BuildContext context) {
                   Row(
                     children: [
                       Text(
-                        '',
+                        '${model['title']}',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleLarge,
                       )
@@ -302,7 +277,7 @@ void showBottomSheet(BuildContext context) {
                   const Divider(),
                   Space(height: 15.h, width: 0.w),
                   Text(
-                    '',
+                    '${model['description']}',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: AppColorsDark.primaryGreenColor,
                         ),

@@ -19,9 +19,9 @@ class AppCubit extends Cubit<AppStates> {
     const NewArchivedScreen(),
   ];
   List<String> titles = [
-    'New Tasks',
-    'Done Tasks',
-    'Archived Tasks',
+    'New Tasks 🆕',
+    'Done Tasks ✔',
+    'Archived Tasks ⏳',
   ];
 
   void changeIndex(int index) {

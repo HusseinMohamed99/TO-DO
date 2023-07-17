@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColorsDark {
   static const Color primaryDarkColor = Color(0xff333739);
-  static const Color greyDarkColor = Color(0xff212121);
+  static const Color greyColor = Color(0xFFB5B5B5);
   static const Color textColor = Color(0xffffffff);
   static const Color iconColor = Color(0xffffffff);
   static const Color iconRateColor = Color(0xffFFC107);
@@ -14,7 +14,7 @@ class AppColorsDark {
 
 class AppColorsLight {
   static const Color scaffoldBackgroundColor = Color(0xFFF9FFF6);
-  static const Color primaryLightColor = Color(0xffffffff);
+  static const Color textColor = Color(0xff009688);
   static const Color lightSecondaryColor = Color(0xffffffff);
   static const Color lightThirdColor = Color(0xFFF5DF99);
   static const Color bottomSheetColor = Color(0xffffffff);
