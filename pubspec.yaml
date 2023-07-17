@@ -23,6 +23,7 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   flutter_screenutil: ^5.8.4
   wakelock: ^0.6.2
+  google_fonts: ^5.1.0
 
 
 dev_dependencies:

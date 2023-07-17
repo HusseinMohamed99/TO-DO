@@ -44,7 +44,7 @@ class ThemeApp {
   );
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: primaryLightColor,
-    primarySwatch: Colors.red,
+    primarySwatch: Colors.teal,
     appBarTheme: const AppBarTheme(
       titleSpacing: 20.0,
       systemOverlayStyle: SystemUiOverlayStyle(
