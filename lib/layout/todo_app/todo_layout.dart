@@ -16,6 +16,7 @@ class HomeLayout extends StatelessWidget {
     var scaffoldKey = GlobalKey<ScaffoldState>();
     var formKey = GlobalKey<FormState>();
     var titleController = TextEditingController();
+    var descriptionController = TextEditingController();
     var timeController = TextEditingController();
     var dateController = TextEditingController();
 
@@ -61,6 +62,7 @@ class HomeLayout extends StatelessWidget {
                   if (formKey.currentState!.validate()) {
                     cubit.insertToDatabase(
                       title: titleController.text,
+                      description: descriptionController.text,
                       time: timeController.text,
                       date: dateController.text,
                     );
@@ -90,6 +92,21 @@ class HomeLayout extends StatelessWidget {
                                     },
                                     label: 'Task Title',
                                     prefix: Icons.title,
+                                  ),
+                                  const SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  DefaultTextFormField(
+                                    controller: descriptionController,
+                                    type: TextInputType.text,
+                                    validate: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return 'Description must not be empty';
+                                      }
+                                      return null;
+                                    },
+                                    label: 'Task Description',
+                                    prefix: Icons.description,
                                   ),
                                   const SizedBox(
                                     height: 20.0,

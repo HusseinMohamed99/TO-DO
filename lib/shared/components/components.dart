@@ -1,11 +1,14 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo/shared/components/sized_box.dart';
+import 'package:todo/shared/cubit/mode_cubit.dart';
 import 'package:todo/shared/cubit/todo_cubit.dart';
-import 'package:todo/styles/themes.dart';
+import 'package:todo/styles/colors.dart';
 
 Widget defaultButton({
   double width = double.infinity,
-  Color background = ThemeApp.defaultColor,
+  Color background = AppColorsDark.primaryGreenColor,
   bool isUpperCase = true,
   double radius = 3.0,
   required Function function,
@@ -106,52 +109,49 @@ class DefaultTextFormField extends StatelessWidget {
   }
 }
 
-Widget buildTaskItem(Map model, context) => Dismissible(
-      key: Key(model['id'].toString()),
-      child: Card(
-        elevation: 20.0,
-        color: Colors.grey[200],
-        margin: const EdgeInsetsDirectional.all(20),
-        child: SizedBox(
-          height: 110,
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 40.0,
-                child: Text(
-                  '${model['time']}',
-                ),
+Widget gridTasksItem(Map model, context) {
+  var cubit = ModeCubit.get(context);
+  return Card(
+    elevation: 20.0,
+    color: cubit.isDark ? Colors.grey[200] : Colors.red,
+    margin: const EdgeInsets.all(20).r,
+    child: Column(
+      children: [
+        Text(
+          '${model['time']}',
+        ),
+        Text(
+          '${model['description']}',
+        ),
+        const SizedBox(
+          height: 20.0,
+        ),
+        Column(
+          children: [
+            Text(
+              '${model['title']}',
+              style: const TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
               ),
-              const SizedBox(
-                width: 20.0,
+            ),
+            Text(
+              '${model['date']}',
+              style: const TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
               ),
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${model['title']}',
-                      style: const TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '${model['date']}',
-                      style: const TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                width: 20.0,
-              ),
-              IconButton(
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 20.0,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: IconButton(
                 onPressed: () {
                   AppCubit.get(context).updateData(
                     status: 'done',
@@ -163,7 +163,9 @@ Widget buildTaskItem(Map model, context) => Dismissible(
                   color: Colors.green,
                 ),
               ),
-              IconButton(
+            ),
+            Expanded(
+              child: IconButton(
                 onPressed: () {
                   AppCubit.get(context).updateData(
                     status: 'archive',
@@ -175,25 +177,41 @@ Widget buildTaskItem(Map model, context) => Dismissible(
                   color: Colors.black38,
                 ),
               ),
-            ],
-          ),
+            ),
+            Expanded(
+              child: IconButton(
+                onPressed: () {
+                  AppCubit.get(context).deleteData(
+                    id: model['id'],
+                  );
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  color: Colors.black38,
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
-      onDismissed: (direction) {
-        AppCubit.get(context).deleteData(
-          id: model['id'],
-        );
-      },
-    );
+      ],
+    ),
+  );
+}
 
 Widget tasksBuilder({required List<Map> tasks}) => ConditionalBuilder(
       condition: tasks.isNotEmpty,
-      builder: (context) => ListView.separated(
-        itemBuilder: (context, index) => buildTaskItem(tasks[index], context),
-        separatorBuilder: (context, index) => myDivider(),
-        itemCount: tasks.length,
+      builder: (context) => GridView.count(
+        padding: const EdgeInsets.symmetric(horizontal: 8).r,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: 2,
+        crossAxisSpacing: 2.0.w,
+        mainAxisSpacing: 2.h,
+        childAspectRatio: 1.h / 1.2.h,
+        children: List.generate(
+            tasks.length, (index) => gridTasksItem(tasks[index], context)),
       ),
-      fallback: (context) => Center(
+      fallback: (context) => const Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(
             Icons.menu,
@@ -217,7 +235,7 @@ Widget myDivider() => Padding(
       child: Container(
         width: double.infinity,
         height: 1.0,
-        color: ThemeApp.defaultColor,
+        color: AppColorsDark.primaryRedColor,
       ),
     );
 
@@ -227,3 +245,74 @@ void navigateTo(context, widget) => Navigator.push(
         builder: (context) => widget,
       ),
     );
+
+void showBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    isScrollControlled: true,
+    backgroundColor: AppColorsDark.primaryGreenColor,
+    context: context,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: const Radius.circular(25.0).r,
+      ),
+    ),
+    builder: (context) => DraggableScrollableSheet(
+      initialChildSize: 0.3.sp,
+      minChildSize: 0.2.spMin,
+      maxChildSize: 0.62.spMax,
+      expand: false,
+      builder: (context, scrollController) {
+        return SingleChildScrollView(
+          controller: scrollController,
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColorsDark.primaryDarkColor,
+              borderRadius:
+                  BorderRadius.vertical(top: const Radius.circular(20).r),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 10).r,
+            margin: const EdgeInsets.symmetric(horizontal: 10).r,
+            child: Stack(
+              alignment: AlignmentDirectional.topCenter,
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  top: -20.h,
+                  child: Container(
+                    width: 50.w,
+                    height: 6.h,
+                    margin: const EdgeInsets.only(bottom: 20).r,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2.5).r,
+                      color: AppColorsDark.primaryGreenColor,
+                    ),
+                  ),
+                ),
+                Space(height: 20.h, width: 0.w),
+                Column(children: [
+                  Row(
+                    children: [
+                      Text(
+                        '',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      )
+                    ],
+                  ),
+                  const Divider(),
+                  Space(height: 15.h, width: 0.w),
+                  Text(
+                    '',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: AppColorsDark.primaryGreenColor,
+                        ),
+                  ),
+                ]),
+              ],
+            ),
+          ),
+        );
+      },
+    ),
+  );
+}

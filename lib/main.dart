@@ -5,10 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/bloc_observer.dart';
 import 'package:todo/layout/todo_app/todo_layout.dart';
 import 'package:todo/network/local/cache_helper.dart';
-import 'package:todo/network/remote/dio_helper.dart';
 import 'package:todo/shared/cubit/mode_cubit.dart';
 import 'package:todo/shared/cubit/mode_states.dart';
 import 'package:todo/shared/cubit/todo_cubit.dart';
+import 'package:todo/shared/enum/enum.dart';
 import 'package:todo/styles/themes.dart';
 import 'package:wakelock/wakelock.dart';
 
@@ -17,7 +17,6 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
   Wakelock.enable();
   Bloc.observer = MyBlocObserver();
-  DioHelper.init();
   await CacheHelper.init();
 
   bool? isDark = CacheHelper.getBoolean(key: 'isDark');
@@ -61,8 +60,8 @@ class MyApp extends StatelessWidget {
                 return MaterialApp(
                   title: 'TO DO',
                   debugShowCheckedModeBanner: false,
-                  theme: ThemeApp.lightTheme,
-                  darkTheme: ThemeApp.darkTheme,
+                  theme: getThemeData[AppTheme.lightTheme],
+                  darkTheme: getThemeData[AppTheme.darkTheme],
                   themeMode: ModeCubit.get(context).isDark
                       ? ThemeMode.light
                       : ThemeMode.dark,

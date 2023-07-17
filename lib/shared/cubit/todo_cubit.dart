@@ -5,7 +5,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:todo/modules/todo_app/newArchived/new_archived_screen.dart';
 import 'package:todo/modules/todo_app/newDone/new_done_screen.dart';
 import 'package:todo/modules/todo_app/newTasks/new_tasks_screen.dart';
-import 'package:todo/network/local/cache_helper.dart';
 import 'package:todo/shared/cubit/todo_states.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -39,14 +38,14 @@ class AppCubit extends Cubit<AppStates> {
   void createDatabase() {
     openDatabase(
       'Todo.db',
-      version: 1,
+      version: 2,
       onCreate: (database, version) async {
         if (kDebugMode) {
           print('Database Created ');
         }
         await database
             .execute(
-                'CREATE TABLE TASKS (id INTEGER PRIMARY KEY , title TEXT , date TEXT, time TEXT, status TEXT)')
+                'CREATE TABLE TASKS (id INTEGER PRIMARY KEY , title TEXT , description TEXT , date TEXT, time TEXT, status TEXT)')
             .then((value) {
           if (kDebugMode) {
             print('table created');
@@ -73,16 +72,17 @@ class AppCubit extends Cubit<AppStates> {
   // Insert Into Database ()
   insertToDatabase({
     required String title,
+    required String description,
     required String time,
     required String date,
   }) async {
     await database!.transaction((txn) {
       return txn
           .rawInsert(
-              'INSERT INTO TASKS (title,date,time,status) Values ("$title","$date","$time","new")')
+              'INSERT INTO TASKS (title,description,date,time,status) Values ("$title","$description","$date","$time","new")')
           .then((value) {
         if (kDebugMode) {
-          print('$value inserted succesfully');
+          print('$value inserted successfully');
         }
         emit(AppInsertDatabaseState());
         getDataFromDatabase(database);
@@ -146,27 +146,6 @@ class AppCubit extends Cubit<AppStates> {
     database!.rawDelete('DELETE FROM tasks WHERE id = ?', [id]).then((value) {
       getDataFromDatabase(database);
       emit((AppDeleteDatabaseState()));
-    });
-  }
-
-  bool isDark = true;
-  Color backgroundColor = const Color(0xff333739);
-
-  void changeAppMode({bool? fromShared}) {
-    if (fromShared == null) {
-      isDark = !isDark;
-    } else {
-      isDark = fromShared;
-    }
-    CacheHelper.saveData(key: 'isDark', value: isDark).then((value) {
-      if (isDark) {
-        backgroundColor = const Color(0xff333739);
-        emit(AppChangeModeState());
-      } else {
-        backgroundColor = const Color(0xffffffff);
-        emit(AppChangeModeState());
-      }
-      emit(AppChangeModeState());
     });
   }
 }
