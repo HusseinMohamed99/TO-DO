@@ -1,25 +1,24 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/shared/components/componentes.dart';
 import 'package:todo/shared/cubit/cubit.dart';
 import 'package:todo/shared/cubit/states.dart';
 
 class HomeLayout extends StatelessWidget {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  final formKey = GlobalKey<FormState>();
-  final titleController = TextEditingController();
-  final timeController = TextEditingController();
-  final dateController = TextEditingController();
-
-  HomeLayout({Key? key}) : super(key: key);
+  const HomeLayout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var scaffoldKey = GlobalKey<ScaffoldState>();
+    var formKey = GlobalKey<FormState>();
+    var titleController = TextEditingController();
+    var timeController = TextEditingController();
+    var dateController = TextEditingController();
     return BlocProvider(
-      create: (BuildContext context) => AppCubit(),
+      create: (context) => AppCubit()..createDatabase(),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (BuildContext context, AppStates state) {
           if (state is AppInsertDatabaseState) {
@@ -40,7 +39,7 @@ class HomeLayout extends StatelessWidget {
               ),
               actions: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0).r,
                   child: CircleAvatar(
                     child: IconButton(
                       onPressed: () {
@@ -52,11 +51,7 @@ class HomeLayout extends StatelessWidget {
                 )
               ],
             ),
-            body: ConditionalBuilder(
-              condition: state is! AppGetDatabaseLoadingState,
-              builder: (context) => cubit.screens[cubit.currentIndex],
-              fallback: (context) => cubit.screens[cubit.currentIndex],
-            ),
+            body: cubit.screens[cubit.currentIndex],
 
             floatingActionButton: FloatingActionButton(
               onPressed: () {
@@ -71,94 +66,97 @@ class HomeLayout extends StatelessWidget {
                 } else {
                   scaffoldKey.currentState!
                       .showBottomSheet(
-                        (context) => Container(
-                          color: Colors.white,
-                          padding: const EdgeInsets.all(
-                            20.0,
-                          ),
-                          child: Form(
+                        (context) {
+                          return Form(
                             key: formKey,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                defaultTextFormField(
-                                  controller: titleController,
-                                  type: TextInputType.text,
-                                  validate: (String? value) {
-                                    if (value!.isEmpty) {
-                                      return 'title must not be empty';
-                                    }
-                                    return null;
-                                  },
-                                  label: 'Task Title',
-                                  prefix: Icons.title,
-                                ),
-                                const SizedBox(
-                                  height: 20.0,
-                                ),
-                                defaultTextFormField(
-                                  controller: timeController,
-                                  type: TextInputType.datetime,
-                                  onTap: () {
-                                    showTimePicker(
-                                      context: context,
-                                      initialTime: TimeOfDay.now(),
-                                    ).then((value) {
-                                      timeController.text =
-                                          value!.format(context).toString();
-                                      if (kDebugMode) {
-                                        print(value.format(context));
+                            child: Container(
+                              color: Colors.white,
+                              padding: const EdgeInsets.all(
+                                20.0,
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  DefaultTextFormField(
+                                    controller: titleController,
+                                    type: TextInputType.text,
+                                    validate: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return 'title must not be empty';
                                       }
-                                    });
-                                  },
-                                  validate: (String? value) {
-                                    if (value!.isEmpty) {
-                                      return 'time must not be empty';
-                                    }
-                                    return null;
-                                  },
-                                  label: 'Task Time',
-                                  prefix: Icons.watch_later_outlined,
-                                ),
-                                const SizedBox(
-                                  height: 20.0,
-                                ),
-                                defaultTextFormField(
-                                  controller: dateController,
-                                  type: TextInputType.datetime,
-                                  onTap: () {
-                                    showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime.parse('2060-05-15'),
-                                    ).then((value) {
-                                      dateController.text =
-                                          DateFormat.yMMMd().format(value!);
-                                    });
-                                  },
-                                  validate: (String? value) {
-                                    if (value!.isEmpty) {
-                                      return 'date must not be empty';
-                                    }
-                                    return null;
-                                  },
-                                  label: 'Task Date',
-                                  prefix: Icons.calendar_today,
-                                )
-                              ],
+                                      return null;
+                                    },
+                                    label: 'Task Title',
+                                    prefix: Icons.title,
+                                  ),
+                                  const SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  DefaultTextFormField(
+                                    controller: timeController,
+                                    type: TextInputType.datetime,
+                                    onTap: () {
+                                      showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay.now(),
+                                      ).then((value) {
+                                        timeController.text =
+                                            value!.format(context).toString();
+                                        if (kDebugMode) {
+                                          print(value.format(context));
+                                        }
+                                      });
+                                    },
+                                    validate: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return 'time must not be empty';
+                                      }
+                                      return null;
+                                    },
+                                    label: 'Task Time',
+                                    prefix: Icons.watch_later_outlined,
+                                  ),
+                                  const SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  DefaultTextFormField(
+                                    controller: dateController,
+                                    type: TextInputType.datetime,
+                                    onTap: () {
+                                      showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime.now()
+                                            .add(const Duration(days: 365)),
+                                      ).then((value) {
+                                        dateController.text =
+                                            DateFormat.yMMMd().format(value!);
+                                      });
+                                    },
+                                    validate: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return 'date must not be empty';
+                                      }
+                                      return null;
+                                    },
+                                    label: 'Task Date',
+                                    prefix: Icons.calendar_today,
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                         elevation: 20.0,
                       )
                       .closed
                       .then((value) {
-                    cubit.changeBottomSheetState(
-                      isShow: false,
-                      icon: Icons.edit,
-                    );
-                  });
+                        cubit.changeBottomSheetState(
+                          isShow: false,
+                          icon: Icons.edit,
+                        );
+                      });
                   cubit.changeBottomSheetState(
                     isShow: true,
                     icon: Icons.add,

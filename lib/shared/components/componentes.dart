@@ -45,27 +45,44 @@ Widget defaultTextButton({
       child: Text(text.toUpperCase()),
     );
 
-Widget defaultTextFormField({
-  required TextEditingController controller,
-  required TextInputType type,
-  String Function(String?)? onSubmit,
-  Function(String)? onChange,
-  Function()? onTap,
-  required String? Function(String?) validate,
-  required String label,
-  required IconData prefix,
-  bool isPassword = false,
-  bool isClickable = true,
-  IconData? suffix,
-  Function? suffixPressed,
-}) =>
-    TextFormField(
+class DefaultTextFormField extends StatelessWidget {
+  const DefaultTextFormField(
+      {required this.controller,
+      required this.type,
+      required this.validate,
+      this.onSubmit,
+      this.isPassword,
+      this.isClickable,
+      this.onTap,
+      this.onChanged,
+      this.suffix,
+      this.suffixPressed,
+      this.prefix,
+      required this.label,
+      super.key});
+
+  final TextEditingController controller;
+  final String label;
+  final TextInputType type;
+  final bool? isPassword;
+  final bool? isClickable;
+  final String? Function(String?) validate;
+  final String Function(String?)? onSubmit;
+  final dynamic onTap;
+  final dynamic onChanged;
+  final IconData? suffix;
+  final IconData? prefix;
+  final Function? suffixPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
       controller: controller,
       keyboardType: type,
-      obscureText: isPassword,
+      obscureText: isPassword ?? false,
       onFieldSubmitted: onSubmit,
-      onChanged: onChange,
-      enabled: isClickable,
+      onChanged: onChanged,
+      enabled: isClickable ?? true,
       onTap: onTap,
       validator: validate,
       decoration: InputDecoration(
@@ -86,6 +103,8 @@ Widget defaultTextFormField({
         border: const OutlineInputBorder(),
       ),
     );
+  }
+}
 
 Widget buildTaskItem(Map model, context) => Dismissible(
       key: Key(model['id'].toString()),

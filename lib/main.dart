@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/layout/todo_app/todo_layout.dart';
@@ -36,18 +37,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => AppCubit()
-            ..changeAppMode(
-              fromShared: isDark,
-            ),
+    return BlocProvider(
+      create: (context) => AppCubit()
+        ..changeAppMode(
+          fromShared: isDark,
         ),
-      ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
+          ]);
           return ScreenUtilInit(
               designSize: const Size(360, 690),
               minTextAdapt: true,
@@ -60,7 +61,7 @@ class MyApp extends StatelessWidget {
                   themeMode: AppCubit.get(context).isDark
                       ? ThemeMode.dark
                       : ThemeMode.light,
-                  home: HomeLayout(),
+                  home: const HomeLayout(),
                 );
               });
         },
