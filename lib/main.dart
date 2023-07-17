@@ -6,7 +6,8 @@ import 'package:todo/layout/todo_app/todo_layout.dart';
 import 'package:todo/network/local/cache_helper.dart';
 import 'package:todo/network/remote/dio_helper.dart';
 import 'package:todo/shared/cubit/cubit.dart';
-import 'package:todo/shared/cubit/states.dart';
+import 'package:todo/shared/cubit/mode_cubit.dart';
+import 'package:todo/shared/cubit/mode_states.dart';
 import 'package:todo/styles/themes.dart';
 import 'package:wakelock/wakelock.dart';
 
@@ -37,12 +38,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AppCubit()
-        ..changeAppMode(
-          fromShared: isDark,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AppCubit()
+            ..changeAppMode(
+              fromShared: isDark,
+            ),
         ),
-      child: BlocConsumer<AppCubit, AppStates>(
+        BlocProvider(
+          create: (context) => ModeCubit()
+            ..changeAppMode(
+              fromShared: isDark,
+            ),
+        ),
+      ],
+      child: BlocConsumer<ModeCubit, ModeStates>(
         listener: (context, state) {},
         builder: (context, state) {
           SystemChrome.setPreferredOrientations([
@@ -55,12 +66,13 @@ class MyApp extends StatelessWidget {
               splitScreenMode: true,
               builder: (context, child) {
                 return MaterialApp(
+                  title: 'TO DO',
                   debugShowCheckedModeBanner: false,
                   theme: ThemeApp.lightTheme,
                   darkTheme: ThemeApp.darkTheme,
-                  themeMode: AppCubit.get(context).isDark
-                      ? ThemeMode.dark
-                      : ThemeMode.light,
+                  themeMode: ModeCubit.get(context).isDark
+                      ? ThemeMode.light
+                      : ThemeMode.dark,
                   home: const HomeLayout(),
                 );
               });

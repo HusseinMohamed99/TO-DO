@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:todo/shared/components/componentes.dart';
+import 'package:todo/shared/components/components.dart';
 import 'package:todo/shared/cubit/cubit.dart';
+import 'package:todo/shared/cubit/mode_cubit.dart';
 import 'package:todo/shared/cubit/states.dart';
 
 class HomeLayout extends StatelessWidget {
@@ -17,6 +18,7 @@ class HomeLayout extends StatelessWidget {
     var titleController = TextEditingController();
     var timeController = TextEditingController();
     var dateController = TextEditingController();
+
     return BlocProvider(
       create: (context) => AppCubit()..createDatabase(),
       child: BlocConsumer<AppCubit, AppStates>(
@@ -43,7 +45,7 @@ class HomeLayout extends StatelessWidget {
                   child: CircleAvatar(
                     child: IconButton(
                       onPressed: () {
-                        cubit.changeAppMode();
+                        ModeCubit.get(context).changeAppMode();
                       },
                       icon: const Icon(Icons.dark_mode_outlined),
                     ),
