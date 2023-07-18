@@ -31,12 +31,25 @@ final getThemeData = {
         color: Colors.black,
       ),
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       selectedItemColor: AppColorsLight.tealColor,
       backgroundColor: AppColorsLight.primaryColor,
       elevation: 25.0,
+      showSelectedLabels: true,
+      showUnselectedLabels: false,
+      selectedIconTheme: IconThemeData(
+        size: 30.sp,
+        color: AppColorsLight.tealColor,
+      ),
       unselectedIconTheme: IconThemeData(
+        size: 24.sp,
+        color: AppMainColors.greyColor,
+      ),
+      selectedLabelStyle: const TextStyle(
+        color: AppColorsLight.tealColor,
+      ),
+      unselectedLabelStyle: const TextStyle(
         color: AppMainColors.greyColor,
       ),
     ),
@@ -90,12 +103,28 @@ final getThemeData = {
         color: AppMainColors.whiteColor,
       ),
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       selectedItemColor: AppMainColors.blueColor,
       unselectedItemColor: AppMainColors.greyColor,
       backgroundColor: AppColorsDark.primaryDarkColor,
       elevation: 25.0,
+      showSelectedLabels: true,
+      showUnselectedLabels: false,
+      selectedIconTheme: IconThemeData(
+        size: 30.sp,
+        color: AppMainColors.blueColor,
+      ),
+      unselectedIconTheme: IconThemeData(
+        size: 24.sp,
+        color: AppMainColors.greyColor,
+      ),
+      selectedLabelStyle: const TextStyle(
+        color: AppMainColors.blueColor,
+      ),
+      unselectedLabelStyle: const TextStyle(
+        color: AppMainColors.greyColor,
+      ),
     ),
     textTheme: TextTheme(
       titleLarge: GoogleFonts.roboto(

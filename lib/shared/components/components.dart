@@ -43,6 +43,7 @@ class DefaultTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppCubit cubit = AppCubit.get(context);
     return TextFormField(
       maxLength: maxLength,
       controller: controller,
@@ -55,8 +56,12 @@ class DefaultTextFormField extends StatelessWidget {
       validator: validate,
       decoration: InputDecoration(
         labelText: label,
+        labelStyle: Theme.of(context).textTheme.titleSmall,
         prefixIcon: Icon(
           prefix,
+          size: 24.sp,
+          color:
+              cubit.isDark ? AppMainColors.greyColor : AppMainColors.blueColor,
         ),
         suffixIcon: suffix != null
             ? IconButton(
@@ -65,6 +70,10 @@ class DefaultTextFormField extends StatelessWidget {
                 },
                 icon: Icon(
                   suffix,
+                  size: 24.sp,
+                  color: cubit.isDark
+                      ? AppMainColors.greyColor
+                      : AppMainColors.blueColor,
                 ),
               )
             : null,
