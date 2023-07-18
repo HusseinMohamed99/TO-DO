@@ -7,16 +7,17 @@ import 'package:todo/styles/colors.dart';
 
 final getThemeData = {
   AppTheme.lightTheme: ThemeData(
-    scaffoldBackgroundColor: AppColorsLight.scaffoldBackgroundColor,
+    scaffoldBackgroundColor: AppColorsLight.primaryColor,
     primarySwatch: Colors.teal,
+    cardColor: AppMainColors.whiteColor,
     appBarTheme: const AppBarTheme(
       titleSpacing: 20.0,
       systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
+        statusBarColor: AppColorsLight.primaryColor,
         statusBarBrightness: Brightness.light,
         statusBarIconBrightness: Brightness.dark,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: AppColorsLight.primaryColor,
       elevation: 0.0,
       titleTextStyle: TextStyle(
         color: Colors.black,
@@ -32,11 +33,11 @@ final getThemeData = {
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: AppMainColors.blueColor,
-      backgroundColor: Colors.white,
+      selectedItemColor: AppColorsLight.tealColor,
+      backgroundColor: AppColorsLight.primaryColor,
       elevation: 25.0,
       unselectedIconTheme: IconThemeData(
-        color: Colors.black54,
+        color: AppMainColors.greyColor,
       ),
     ),
     textTheme: TextTheme(
@@ -74,7 +75,7 @@ final getThemeData = {
     cardColor: AppColorsDark.primaryDarkColor,
     appBarTheme: AppBarTheme(
       titleSpacing: 20.0,
-      systemOverlayStyle: SystemUiOverlayStyle(
+      systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: AppColorsDark.primaryDarkColor,
         statusBarIconBrightness: Brightness.light,
       ),
@@ -85,14 +86,14 @@ final getThemeData = {
         fontSize: 20.sp,
         fontWeight: FontWeight.bold,
       ),
-      actionsIconTheme: IconThemeData(
-        color: Colors.white,
+      actionsIconTheme: const IconThemeData(
+        color: AppMainColors.whiteColor,
       ),
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       selectedItemColor: AppMainColors.blueColor,
-      unselectedItemColor: Colors.white,
+      unselectedItemColor: AppMainColors.greyColor,
       backgroundColor: AppColorsDark.primaryDarkColor,
       elevation: 25.0,
     ),

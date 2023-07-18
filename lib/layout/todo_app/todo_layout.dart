@@ -36,7 +36,9 @@ class HomeLayout extends StatelessWidget {
             appBar: AppBar(
               title: Text(
                 cubit.titles[cubit.currentIndex],
-                style: Theme.of(context).textTheme.titleLarge,
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: AppMainColors.blueColor,
+                    ),
               ),
               actions: [
                 Padding(
@@ -45,7 +47,7 @@ class HomeLayout extends StatelessWidget {
                     radius: 20.r,
                     backgroundColor: cubit.isDark
                         ? AppColorsLight.tealColor
-                        : AppColorsDark.textColor,
+                        : AppMainColors.whiteColor,
                     child: IconButton(
                       onPressed: () {
                         AppCubit.get(context).changeAppMode();
@@ -83,7 +85,9 @@ class HomeLayout extends StatelessWidget {
                       .showBottomSheet(
                         (context) {
                           return Container(
-                            color: Colors.white,
+                            color: cubit.isDark
+                                ? AppColorsLight.primaryColor
+                                : AppColorsDark.primaryDarkColor,
                             padding: const EdgeInsets.all(
                               20.0,
                             ),
@@ -191,6 +195,10 @@ class HomeLayout extends StatelessWidget {
               },
               child: Icon(
                 cubit.fabIcon,
+                size: 24.sp,
+                color: cubit.isDark
+                    ? AppMainColors.whiteColor
+                    : AppMainColors.blueColor,
               ),
             ),
 

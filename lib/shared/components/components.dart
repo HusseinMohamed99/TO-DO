@@ -85,6 +85,8 @@ Widget gridTasksItem(Map model, List<Map> tasks, context, index) {
       child: Column(
         children: [
           InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             onTap: () {
               showBottomSheetWidget(
                 context,

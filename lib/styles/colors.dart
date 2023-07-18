@@ -6,7 +6,7 @@ class AppColorsDark {
 }
 
 class AppColorsLight {
-  static const Color scaffoldBackgroundColor = Color(0xFFF9FFF6);
+  static const Color primaryColor = Color(0xFFF9FFF6);
   static const Color tealColor = Color(0xff009688);
 }
 
