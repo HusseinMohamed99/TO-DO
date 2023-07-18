@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:todo/modules/todo_app/newArchived/new_archived_screen.dart';
 import 'package:todo/modules/todo_app/newDone/new_done_screen.dart';
 import 'package:todo/modules/todo_app/newTasks/new_tasks_screen.dart';
+import 'package:todo/network/local/cache_helper.dart';
 import 'package:todo/shared/cubit/todo_states.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -19,7 +20,7 @@ class AppCubit extends Cubit<AppStates> {
     const NewArchivedScreen(),
   ];
   List<String> titles = [
-    'New Tasks 🆕',
+    'New Tasks ✨',
     'Done Tasks ✔',
     'Archived Tasks ⏳',
   ];
@@ -76,7 +77,7 @@ class AppCubit extends Cubit<AppStates> {
     required String time,
     required String date,
   }) async {
-    await database!.transaction((txn) {
+    await database?.transaction((txn) {
       return txn
           .rawInsert(
               'INSERT INTO TASKS (title,description,date,time,status) Values ("$title","$description","$date","$time","new")')
@@ -147,5 +148,19 @@ class AppCubit extends Cubit<AppStates> {
       getDataFromDatabase(database);
       emit((AppDeleteDatabaseState()));
     });
+  }
+
+  bool isDark = false;
+
+  void changeAppMode({bool? fromShared}) {
+    if (fromShared != null) {
+      isDark = fromShared;
+      emit(AppChangeModeState());
+    } else {
+      isDark = !isDark;
+      CacheHelper.putBoolean(key: 'isDark', value: isDark).then((value) {
+        emit(AppChangeModeState());
+      });
+    }
   }
 }

@@ -32,7 +32,7 @@ final getThemeData = {
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: AppColorsLight.bottomNavColor,
+      selectedItemColor: AppMainColors.blueColor,
       backgroundColor: Colors.white,
       elevation: 25.0,
       unselectedIconTheme: IconThemeData(
@@ -43,29 +43,29 @@ final getThemeData = {
       titleLarge: GoogleFonts.roboto(
           fontSize: 28.sp,
           fontWeight: FontWeight.bold,
-          color: AppColorsLight.textColor),
+          color: AppColorsLight.tealColor),
       titleMedium: GoogleFonts.roboto(
         fontSize: 24.sp,
         fontWeight: FontWeight.bold,
-        color: AppColorsLight.textColor,
+        color: AppColorsLight.tealColor,
       ),
       titleSmall: GoogleFonts.roboto(
         fontSize: 16.sp,
         fontWeight: FontWeight.bold,
-        color: AppColorsLight.greyColor,
+        color: AppMainColors.greyColor,
       ),
       bodyLarge: GoogleFonts.roboto(
           fontSize: 30.sp,
           fontWeight: FontWeight.bold,
-          color: AppColorsLight.textColor),
+          color: AppColorsLight.tealColor),
       bodyMedium: GoogleFonts.roboto(
           fontSize: 20.sp,
           fontWeight: FontWeight.bold,
-          color: AppColorsLight.textColor),
+          color: AppColorsLight.tealColor),
       bodySmall: GoogleFonts.roboto(
           fontSize: 10.sp,
           fontWeight: FontWeight.bold,
-          color: AppColorsLight.greyColor),
+          color: AppMainColors.greyColor),
     ),
   ),
   AppTheme.darkTheme: ThemeData(
@@ -91,7 +91,7 @@ final getThemeData = {
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: AppColorsDark.bottomNavColor,
+      selectedItemColor: AppMainColors.blueColor,
       unselectedItemColor: Colors.white,
       backgroundColor: AppColorsDark.primaryDarkColor,
       elevation: 25.0,
@@ -110,7 +110,7 @@ final getThemeData = {
       titleSmall: GoogleFonts.roboto(
         fontSize: 16.sp,
         fontWeight: FontWeight.bold,
-        color: AppColorsDark.greyColor,
+        color: AppMainColors.greyColor,
       ),
       bodyLarge: GoogleFonts.roboto(
         fontSize: 30.sp,
@@ -124,7 +124,7 @@ final getThemeData = {
       bodySmall: GoogleFonts.roboto(
           fontSize: 10.sp,
           fontWeight: FontWeight.bold,
-          color: AppColorsDark.greyColor),
+          color: AppMainColors.greyColor),
     ),
   ),
 };

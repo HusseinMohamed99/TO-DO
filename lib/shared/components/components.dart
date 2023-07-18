@@ -2,7 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:todo/shared/Cubit/mode_cubit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todo/shared/components/sized_box.dart';
 import 'package:todo/shared/cubit/todo_cubit.dart';
 import 'package:todo/shared/enum/enum.dart';
@@ -74,51 +74,65 @@ class DefaultTextFormField extends StatelessWidget {
   }
 }
 
-Widget gridTasksItem(Map model, context) {
+Widget gridTasksItem(Map model, List<Map> tasks, context, index) {
   var textLightTheme = getThemeData[AppTheme.lightTheme]!.textTheme;
   var textDarkTheme = getThemeData[AppTheme.darkTheme]!.textTheme;
-  var cubit = ModeCubit.get(context);
+  var cubit = AppCubit.get(context);
   return Card(
     elevation: 20.0,
-    margin: const EdgeInsets.all(6).r,
     child: Padding(
-      padding: const EdgeInsets.all(16.0).r,
+      padding: const EdgeInsets.all(8.0).r,
       child: Column(
         children: [
-          Text(
-            '${model['title']}'.toUpperCase(),
-            style: cubit.isDark
-                ? textLightTheme.titleLarge
-                : textDarkTheme.titleLarge,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          InkWell(
+            onTap: () {
+              showBottomSheetWidget(
+                context,
+                tasks[index],
+              );
+              if (kDebugMode) {
+                print(index);
+              }
+            },
+            child: Column(
+              children: [
+                Text(
+                  '${model['title']}'.toUpperCase(),
+                  style: cubit.isDark
+                      ? textLightTheme.titleLarge
+                      : textDarkTheme.titleLarge,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  '${model['description']}',
+                  style: cubit.isDark
+                      ? textLightTheme.titleSmall
+                      : textDarkTheme.titleSmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Space(height: 16.h, width: 0),
+                Column(
+                  children: [
+                    Text(
+                      '${model['time']}',
+                      style: cubit.isDark
+                          ? textLightTheme.titleSmall
+                          : textDarkTheme.titleSmall,
+                    ),
+                    Text(
+                      '${model['date']}',
+                      style: cubit.isDark
+                          ? textLightTheme.titleSmall
+                          : textDarkTheme.titleSmall,
+                    ),
+                  ],
+                ),
+                Space(height: 8.h, width: 0),
+              ],
+            ),
           ),
-          Text(
-            '${model['description']}',
-            style: cubit.isDark
-                ? textLightTheme.titleSmall
-                : textDarkTheme.titleSmall,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Space(height: 16.h, width: 0),
-          Column(
-            children: [
-              Text(
-                '${model['time']}',
-                style: cubit.isDark
-                    ? textLightTheme.titleSmall
-                    : textDarkTheme.titleSmall,
-              ),
-              Text(
-                '${model['date']}',
-                style: cubit.isDark
-                    ? textLightTheme.titleSmall
-                    : textDarkTheme.titleSmall,
-              ),
-            ],
-          ),
-          Space(height: 8.h, width: 0),
           Expanded(
             child: Row(
               children: [
@@ -130,9 +144,10 @@ Widget gridTasksItem(Map model, context) {
                         id: model['id'],
                       );
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.check_box,
-                      color: Colors.green,
+                      color: AppMainColors.greenColor,
+                      size: 24.sp,
                     ),
                   ),
                 ),
@@ -144,9 +159,10 @@ Widget gridTasksItem(Map model, context) {
                         id: model['id'],
                       );
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.archive,
-                      color: Colors.black38,
+                      color: AppMainColors.blueColor,
+                      size: 24.sp,
                     ),
                   ),
                 ),
@@ -157,9 +173,10 @@ Widget gridTasksItem(Map model, context) {
                         id: model['id'],
                       );
                     },
-                    icon: const Icon(
-                      Icons.delete,
-                      color: Colors.black38,
+                    icon: Icon(
+                      Icons.delete_forever_outlined,
+                      color: AppMainColors.redColor,
+                      size: 24.sp,
                     ),
                   ),
                 ),
@@ -172,59 +189,65 @@ Widget gridTasksItem(Map model, context) {
   );
 }
 
-Widget tasksBuilder({required List<Map> tasks}) => ConditionalBuilder(
-      condition: tasks.isNotEmpty,
-      builder: (context) => GridView.count(
-        padding: const EdgeInsets.all(0).r,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: 2,
-        crossAxisSpacing: 1.w,
-        mainAxisSpacing: 2.h,
-        childAspectRatio: 1.h / 1.h,
-        children: List.generate(
-            tasks.length,
-            (index) => InkWell(
-                onTap: () {
-                  showBottomSheetWidget(context, tasks[index]);
-                  if (kDebugMode) {
-                    print(index);
-                  }
-                },
-                child: gridTasksItem(tasks[index], context))),
-      ),
-      fallback: (context) => const Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(
-            Icons.menu,
-            size: 150.0,
-            color: Colors.grey,
-          ),
-          Text(
-            'No Tasks Yet, please Add Some',
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey,
+Widget tasksBuilder({required List<Map> tasks}) {
+  return ConditionalBuilder(
+    condition: tasks.isNotEmpty,
+    builder: (context) => GridView.count(
+      padding: const EdgeInsets.all(0).r,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 2,
+      crossAxisSpacing: 1.w,
+      mainAxisSpacing: 2.h,
+      childAspectRatio: 1.h / 1.h,
+      children: List.generate(
+          tasks.length,
+          (index) => gridTasksItem(
+                tasks[index],
+                tasks,
+                context,
+                index,
+              )),
+    ),
+    fallback: (context) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0).r,
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            SvgPicture.asset(
+              'assets/images/empty.svg',
+              fit: BoxFit.fill,
+              width: 200.w,
+              height: 200.h,
             ),
-          ),
-        ]),
-      ),
-    );
+            Space(height: 20.h, width: 0.w),
+            Text(
+              'No Tasks Yet, Please Add Some',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ]),
+        ),
+      );
+    },
+  );
+}
 
 Widget myDivider() => Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8, bottom: 0).r,
       child: Container(
         width: double.infinity,
-        height: 1.0,
-        color: AppColorsDark.primaryRedColor,
+        height: 4.0,
+        color: AppMainColors.dividerColor,
       ),
     );
 
 void showBottomSheetWidget(BuildContext context, Map model) {
+  var cubit = AppCubit.get(context);
   showModalBottomSheet(
     isScrollControlled: true,
-    backgroundColor: AppColorsDark.primaryGreenColor,
+    backgroundColor: cubit.isDark
+        ? AppMainColors.whiteColor
+        : AppColorsDark.primaryDarkColor,
     context: context,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
@@ -241,9 +264,12 @@ void showBottomSheetWidget(BuildContext context, Map model) {
           controller: scrollController,
           child: Container(
             decoration: BoxDecoration(
-              color: AppColorsDark.primaryDarkColor,
-              borderRadius:
-                  BorderRadius.vertical(top: const Radius.circular(20).r),
+              color: cubit.isDark
+                  ? AppMainColors.whiteColor
+                  : AppColorsDark.primaryDarkColor,
+              borderRadius: BorderRadius.vertical(
+                top: const Radius.circular(20).r,
+              ),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 10).r,
             margin: const EdgeInsets.symmetric(horizontal: 10).r,
@@ -259,30 +285,37 @@ void showBottomSheetWidget(BuildContext context, Map model) {
                     margin: const EdgeInsets.only(bottom: 20).r,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(2.5).r,
-                      color: AppColorsDark.primaryGreenColor,
+                      color: cubit.isDark
+                          ? AppColorsLight.tealColor
+                          : AppColorsDark.primaryDarkColor,
                     ),
                   ),
                 ),
                 Space(height: 20.h, width: 0.w),
-                Column(children: [
-                  Row(
-                    children: [
-                      Text(
-                        '${model['title']}',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      )
-                    ],
-                  ),
-                  const Divider(),
-                  Space(height: 15.h, width: 0.w),
-                  Text(
-                    '${model['description']}',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: AppColorsDark.primaryGreenColor,
+                Padding(
+                  padding: const EdgeInsets.all(12.0).r,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            '${model['title']}',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
                         ),
-                  ),
-                ]),
+                        myDivider(),
+                        Space(height: 15.h, width: 0.w),
+                        Text(
+                          '${model['description']}',
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    color: AppMainColors.greyColor,
+                                  ),
+                        ),
+                      ]),
+                ),
               ],
             ),
           ),

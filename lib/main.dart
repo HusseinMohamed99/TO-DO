@@ -5,9 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/bloc_observer.dart';
 import 'package:todo/layout/todo_app/todo_layout.dart';
 import 'package:todo/network/local/cache_helper.dart';
-import 'package:todo/shared/Cubit/mode_cubit.dart';
-import 'package:todo/shared/cubit/mode_states.dart';
 import 'package:todo/shared/cubit/todo_cubit.dart';
+import 'package:todo/shared/cubit/todo_states.dart';
 import 'package:todo/shared/enum/enum.dart';
 import 'package:todo/styles/themes.dart';
 import 'package:wakelock/wakelock.dart';
@@ -39,13 +38,12 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AppCubit(),
-        ),
-        BlocProvider(
-          create: (context) => ModeCubit()..changeAppMode(fromShared: isDark),
+          create: (context) => AppCubit()
+            ..createDatabase()
+            ..changeAppMode(fromShared: isDark),
         ),
       ],
-      child: BlocConsumer<ModeCubit, ModeStates>(
+      child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
           SystemChrome.setPreferredOrientations([
@@ -62,7 +60,7 @@ class MyApp extends StatelessWidget {
                   debugShowCheckedModeBanner: false,
                   theme: getThemeData[AppTheme.lightTheme],
                   darkTheme: getThemeData[AppTheme.darkTheme],
-                  themeMode: ModeCubit.get(context).isDark
+                  themeMode: AppCubit.get(context).isDark
                       ? ThemeMode.light
                       : ThemeMode.dark,
                   home: const HomeLayout(),
