@@ -5,9 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todo/shared/components/sized_box.dart';
 import 'package:todo/shared/cubit/todo_cubit.dart';
-import 'package:todo/shared/enum/enum.dart';
 import 'package:todo/styles/colors.dart';
-import 'package:todo/styles/themes.dart';
 
 class DefaultTextFormField extends StatelessWidget {
   const DefaultTextFormField(
@@ -84,9 +82,6 @@ class DefaultTextFormField extends StatelessWidget {
 }
 
 Widget gridTasksItem(Map model, List<Map> tasks, context, index) {
-  var textLightTheme = getThemeData[AppTheme.lightTheme]!.textTheme;
-  var textDarkTheme = getThemeData[AppTheme.darkTheme]!.textTheme;
-  var cubit = AppCubit.get(context);
   return Card(
     elevation: 20.0,
     child: Padding(
@@ -109,17 +104,13 @@ Widget gridTasksItem(Map model, List<Map> tasks, context, index) {
               children: [
                 Text(
                   '${model['title']}'.toUpperCase(),
-                  style: cubit.isDark
-                      ? textLightTheme.titleLarge
-                      : textDarkTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleLarge,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   '${model['description']}',
-                  style: cubit.isDark
-                      ? textLightTheme.titleSmall
-                      : textDarkTheme.titleSmall,
+                  style: Theme.of(context).textTheme.titleSmall,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -128,15 +119,11 @@ Widget gridTasksItem(Map model, List<Map> tasks, context, index) {
                   children: [
                     Text(
                       '${model['time']}',
-                      style: cubit.isDark
-                          ? textLightTheme.titleSmall
-                          : textDarkTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                     Text(
                       '${model['date']}',
-                      style: cubit.isDark
-                          ? textLightTheme.titleSmall
-                          : textDarkTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ],
                 ),
