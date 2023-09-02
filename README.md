@@ -2,11 +2,10 @@
 ## Download The App![GitHub All Releases](https://img.shields.io/github/downloads/HusseinMohamed99/TO-DO/total?color=green)
 <a href="https://github.com/HusseinMohamed99/TO-DO/releases/download/v2.0.0/TO.DO.apk"><img src="https://playerzon.com/asset/download.png" width="200"></img></a>
 
-This is a notes Application.
-The main idea of the application is to store the user notes as tasks to
-help him manage his time.
-Also, the user sets a deadline to end this task and the application shows
-him if the task had been done or not.
+Developed a notes application that allows users to store their notes as tasks, set deadlines, and track their progress
+Used a task management system to help users organize their notes and stay on track
+Implemented a reminder system to notify users of upcoming deadlines
+Used a user-friendly interface to make the application easy to use
 
 # Screenshot:
 
